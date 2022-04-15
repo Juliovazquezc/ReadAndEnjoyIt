@@ -40,4 +40,14 @@ class Book extends Model
     public function category() {
         return $this->belongsTo(Category::class, 'category_id');
     }
+
+    /**
+     * Return an array of users with fields of pivot table
+     * 
+     * @return User[]
+     */
+    public function borrowedUsers() {
+        return $this->belongsToMany(User::class, 'users_history_books')
+            ->withPivot('borrowed_date', 'return_date');
+    }
 }

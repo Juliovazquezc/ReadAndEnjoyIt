@@ -41,4 +41,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Return an array of books with fields of pivot table
+     * 
+     * @return Book[]
+     */
+    public function historyBooks() {
+        return $this->belongsToMany(Book::class, 'users_history_books')
+            ->withPivot('borrowed_date', 'return_date');
+    }
 }

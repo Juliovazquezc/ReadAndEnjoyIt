@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddBookRequest;
+use App\Http\Requests\BorrowBookRequest;
 use App\Http\Requests\EditBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Traits\HttpResponseModelDeleted;
 use App\UseCases\Book\AddNewBookUseCase;
+use App\UseCases\Book\BorrowBookUseCase;
 use App\Utils\UpdateModelUtil;
 use Illuminate\Http\JsonResponse;
 
@@ -63,5 +65,25 @@ class BookController extends Controller
     public function delete(Book $book) : JsonResponse {
         $book->delete();
         return $this->httpResponseModelDeleted();
+    }
+
+    /**
+     * Borrow a book if it's available
+     * @param BorrowBookRequest $request,
+     * @param Book $book
+     * @param BorrowBookUseCase $useCase
+     * 
+     * @return JsonResponse
+     * 
+     */
+    public function borrow(BorrowBookRequest $request, Book $book, BorrowBookUseCase $useCase) : JsonResponse {
+        $user = $request->user();
+        $useCase($book, $user); 
+        return response()->json([
+            'message' => __('general.books.actions.borrowed', [
+                'bookName' => $book->name,
+                'userName' => $user->name,
+            ])
+        ]);
     }
 }

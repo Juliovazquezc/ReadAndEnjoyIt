@@ -34,5 +34,6 @@ Route::group($versionApiAttributes, function ()  {
         Route::post('books/', [BookController::class, 'store']);
         Route::put('books/{book}', [BookController::class, 'edit']);
         Route::delete('books/{book}', [BookController::class, 'delete']);
+        Route::put('books/{book}/borrow', [BookController::class, 'borrow']);
     });
 });
