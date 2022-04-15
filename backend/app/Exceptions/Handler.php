@@ -6,6 +6,7 @@ use App\Traits\HttpResponseFailure;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -47,6 +48,13 @@ class Handler extends ExceptionHandler
             return $this->httpResponseFailure(
                 $error->getMessage(),
                 $error->getCode()
+            );
+        });
+
+        $this->renderable( function (NotFoundHttpException $error) {
+            return $this->httpResponseFailure(
+                __('error.not_found'),
+                $error->getStatusCode()
             );
         });
     }

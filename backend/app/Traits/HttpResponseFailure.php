@@ -9,7 +9,7 @@ trait HttpResponseFailure
 {
     
     /**
-     * Return a json response object when somthing fails
+     * Return a json response object when something fails
      * 
      * @return JsonResponse
      * 

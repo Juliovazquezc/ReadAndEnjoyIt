@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
 use App\Http\Controllers\UserController;
+use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +29,10 @@ Route::group($versionApiAttributes, function ()  {
 
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('users/me/', [UserController::class, 'me']);
+        
+        Route::get('books/{book}', [BookController::class, 'show']);
+        Route::post('books/', [BookController::class, 'store']);
+        Route::put('books/{book}', [BookController::class, 'edit']);
+        Route::delete('books/{book}', [BookController::class, 'delete']);
     });
 });

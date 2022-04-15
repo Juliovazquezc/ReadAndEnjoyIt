@@ -3,11 +3,9 @@
 namespace App\UseCases\Auth;
 
 use App\Exceptions\BadCredentialsException;
-use App\Http\Resources\AuthResource;
 use App\Models\User;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
 class LoginUseCase 
 {
