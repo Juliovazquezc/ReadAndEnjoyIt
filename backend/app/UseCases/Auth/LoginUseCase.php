@@ -18,7 +18,7 @@ class LoginUseCase
      */
     public function __invoke(string $email, $password): User {
         if (!Auth::attempt(['email'=> $email, 'password'=> $password])) {
-            throw new BadCredentialsException(__('auth.exceptions.bad_credentials'), Response::HTTP_FORBIDDEN);
+            throw new BadCredentialsException(Response::HTTP_FORBIDDEN, __('auth.exceptions.bad_credentials'), );
         }
 
         $userRegistered = User::where('email', $email)->first();
