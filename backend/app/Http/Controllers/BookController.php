@@ -7,6 +7,7 @@ use App\Events\BookBorrowed;
 use App\Events\BookReturned;
 use App\Http\Requests\AddBookRequest;
 use App\Http\Requests\BorrowBookRequest;
+use App\Http\Requests\DeleteBookRequest;
 use App\Http\Requests\EditBookRequest;
 use App\Http\Requests\ReturnBookRequest;
 use App\Http\Resources\BookResource;
@@ -68,7 +69,7 @@ class BookController extends Controller
      * 
      * @return JsonResponse
      */
-    public function delete(Book $book) : JsonResponse {
+    public function delete(DeleteBookRequest $request, Book $book) : JsonResponse {
         $book->delete();
         return $this->httpResponseModelDeleted();
     }
