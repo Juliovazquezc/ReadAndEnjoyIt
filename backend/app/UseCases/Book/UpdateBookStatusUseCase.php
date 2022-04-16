@@ -8,7 +8,7 @@ use App\Models\Book;
 use App\Models\User;
 use App\Utils\UpdateModelUtil;
 
-class BorrowBookUseCase 
+class UpdateBookStatusUseCase 
 {
     /**
      * @var UpdateModelUtil
@@ -19,14 +19,16 @@ class BorrowBookUseCase
         $this->updateModelUtil = $updateModelUtil;
     }
     /**
-     * A User borrows a book
+     * Change the book status and trigger an event
+     * 
+     * @return Book
      */
-    public function __invoke(Book $book, User $user) : Book {
+    public function __invoke(Book $book, string $status, object $eventToTrigger) : Book {
         $dataToUpdateBook = [
-            'status' => BookStatus::BORROWED
+            'status' => $status
         ];
         $this->updateModelUtil->__invoke($book, $dataToUpdateBook);
-        event(new BookBorrowed($book, $user));
+        event($eventToTrigger);
         return $book;
     }
 }

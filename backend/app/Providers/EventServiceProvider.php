@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Events\BookBorrowed;
+use App\Events\BookReturned;
 use App\Listeners\SaveBookBorrowedHistory;
+use App\Listeners\UpdateHistoryBook;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -22,7 +24,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         BookBorrowed::class => [
             SaveBookBorrowedHistory::class,
-        ]
+        ],
+        BookReturned::class => [
+            UpdateHistoryBook::class
+        ],
+        
     ];
 
     /**

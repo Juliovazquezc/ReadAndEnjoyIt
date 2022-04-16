@@ -3,9 +3,9 @@
 namespace App\Exceptions;
 
 use App\Traits\HttpResponseFailure;
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
+use PDOException;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -56,6 +56,13 @@ class Handler extends ExceptionHandler
             return $this->httpResponseFailure(
                 $error->getMessage(),
                 $error->getStatusCode()
+            );
+        });
+
+        $this->renderable(function (PDOException $error) {
+            return $this->httpResponseFailure(
+                __('error.database', ['errorCode' => $error->getCode()]),
+                Response::HTTP_INTERNAL_SERVER_ERROR
             );
         });
     }

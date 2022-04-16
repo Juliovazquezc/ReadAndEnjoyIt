@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\BookStatus;
+use App\Events\BookBorrowed;
+use App\Events\BookReturned;
 use App\Http\Requests\AddBookRequest;
 use App\Http\Requests\BorrowBookRequest;
 use App\Http\Requests\EditBookRequest;
+use App\Http\Requests\ReturnBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Traits\HttpResponseModelDeleted;
 use App\UseCases\Book\AddNewBookUseCase;
-use App\UseCases\Book\BorrowBookUseCase;
+use App\UseCases\Book\UpdateBookStatusUseCase;
+use App\UseCases\Book\ReturnBookUseCase;
 use App\Utils\UpdateModelUtil;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -71,19 +77,31 @@ class BookController extends Controller
      * Borrow a book if it's available
      * @param BorrowBookRequest $request,
      * @param Book $book
-     * @param BorrowBookUseCase $useCase
+     * @param UpdateBookStatusUseCase $useCase
      * 
      * @return JsonResponse
      * 
      */
-    public function borrow(BorrowBookRequest $request, Book $book, BorrowBookUseCase $useCase) : JsonResponse {
+    public function borrow(BorrowBookRequest $request, Book $book, UpdateBookStatusUseCase $useCase) : JsonResponse {
         $user = $request->user();
-        $useCase($book, $user); 
+        $useCase($book, BookStatus::BORROWED, new BookBorrowed($book, $user)); 
         return response()->json([
             'message' => __('general.books.actions.borrowed', [
                 'bookName' => $book->name,
                 'userName' => $user->name,
             ])
+        ]);
+    }
+
+    /**
+     * Return a book only if the last user with the book makes the request
+     * 
+     * @return JsonResponse
+     */
+    public function return(ReturnBookRequest $request, Book $book, UpdateBookStatusUseCase $useCase) : JsonResponse {
+        $useCase($book, BookStatus::AVAILABLE, new BookReturned($book)); 
+        return response()->json([
+            'message' => __('general.books.actions.returned')
         ]);
     }
 }
