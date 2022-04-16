@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Constants\BookStatus;
+use App\Constants\Pagination;
 use App\Events\BookBorrowed;
 use App\Events\BookReturned;
 use App\Http\Requests\AddBookRequest;
@@ -15,7 +16,6 @@ use App\Models\Book;
 use App\Traits\HttpResponseModelDeleted;
 use App\UseCases\Book\AddNewBookUseCase;
 use App\UseCases\Book\UpdateBookStatusUseCase;
-use App\UseCases\Book\ReturnBookUseCase;
 use App\Utils\UpdateModelUtil;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -23,6 +23,14 @@ use Illuminate\Http\Request;
 class BookController extends Controller
 {
     use HttpResponseModelDeleted;
+
+    /**
+     * Return a collection of books
+     */
+    public function index(Request $request) {
+        $limit = ( $request->limit ) ? $request->limit : Pagination::ITEMS_PER_PAGE;
+        return BookResource::collection(Book::paginate($limit));
+    }
 
     /**
      * Return a single book

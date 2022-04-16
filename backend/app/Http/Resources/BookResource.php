@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Constants\BookStatus;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class BookResource extends JsonResource
@@ -14,12 +15,14 @@ class BookResource extends JsonResource
      */
     public function toArray($request)
     {
-       return[
+        return[
            'id'=> $this->id,
            'name' => $this->name,
            'author' => $this->author,
+           'status' => $this->status,
+           'user_with_the_book' => $this->when($this->status == BookStatus::BORROWED, $this->userWithTheBook()), 
            'publication_date' => $this->publication_date,
            'category' => $this->category->name,
-       ];
+        ];
     }
 }

@@ -30,6 +30,8 @@ Route::group($versionApiAttributes, function ()  {
     Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::get('users/me/', [UserController::class, 'me']);
         
+        
+        Route::get('books/', [BookController::class, 'index']);
         Route::get('books/{book}', [BookController::class, 'show']);
         Route::post('books/', [BookController::class, 'store']);
         Route::put('books/{book}', [BookController::class, 'edit']);
