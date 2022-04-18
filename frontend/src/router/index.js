@@ -37,6 +37,7 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   store.dispatch("getAccessTokenFromLocalStorage");
+  require('../utils/set-authorization-header');
   const isAuthenticated = store.getters.isAuthenticated;
   if (!isAuthenticated && to.name !== "Login") {
     next({ name: "Login" });

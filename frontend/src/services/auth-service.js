@@ -1,7 +1,7 @@
-import Vue from 'vue';
+import axios from 'axios';
 
 const login = async(data) => {
-    const { data: response } = await Vue.axios.post('/auth/login', data);
+    const { data: response } = await axios.post('/auth/login', data);
     return response;
 }
 
