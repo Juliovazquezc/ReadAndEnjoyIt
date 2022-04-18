@@ -1,3 +1,42 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "views": {
+    "login": {
+      "main_message": "Create and choose from hundreds of books, read and start enjoying new worlds.",
+      "secondary_message": "You are free to choose the book you want.",
+      "welcome": "Welcome Again",
+      "access_message": "Access to start enjoy your favorite books.",
+      "fields": {
+        "email": "Email",
+        "password": "Password"
+      },
+
+      "need_an_account": "You need an account?",
+      "register": "Register"
+    }
+  },
+  "forms": {
+    "login": {
+      "action": "Login",
+      "inputs": {
+        "email": {
+          "name": "Email",
+          "validation": {
+            "required": "Email is required",
+            "format": "The input is not a valid email"
+          }
+        },
+        "password": {
+          "name": "Password",
+          "validation": {
+            "required": "Password is required"
+          }
+        }
+      },
+      "errors": {
+        "403": "The credentials are incorrect, please try again",
+        "500": "We are having technical difficulties, please try again."
+      }
+    }
+  }
 }
