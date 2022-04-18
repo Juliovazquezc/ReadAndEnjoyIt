@@ -38,5 +38,27 @@
         "500": "We are having technical difficulties, please try again."
       }
     }
+  },
+  "components": {
+    "logout_button": {
+      "action": "Logout"
+    }
+  },
+  "data_tables":{
+    "books": {
+      "actions": {
+        "edit": "Edit the book",
+        "delete" : "Delete the book",
+        "show_user_with_the_book" : "Show user with the book",
+        "take_the_book": "Take the book"
+      },
+      "headers": {
+        "name": "Name",
+        "author": "Author",
+        "status": "Status",
+        "publication_date": "Publication date",
+        "category": "Category"
+      }
+    }
   }
 }

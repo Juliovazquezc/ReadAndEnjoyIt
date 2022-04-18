@@ -5,7 +5,7 @@
         <v-icon>mdi-logout</v-icon>
       </v-btn>
     </template>
-    <span>Logout</span>
+    <span>{{ $t(`${baseTranslation}.action`) }}</span>
   </v-tooltip>
 </template>
 
@@ -13,6 +13,11 @@
 import { mapActions } from "vuex";
 export default {
   name: "LogoutButton",
+  data() {
+    return {
+      baseTranslation: 'components.logout_button'
+    }
+  },
   methods: {
     ...mapActions(["logout"]),
   },
