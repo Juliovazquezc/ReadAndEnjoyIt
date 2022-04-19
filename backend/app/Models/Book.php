@@ -45,7 +45,7 @@ class Book extends Model
      * Return the last user with the book
      */
     public function userWithTheBook () {
-        return ( count($this->borrowedUsers) > 0 ) ? $this->borrowedUsers->last(): '';    
+        return ( count($this->borrowedUsers) > 0 ) ? $this->borrowedUsers->last()->name: '';    
     }
 
     public function iduserWithTheBook () {
