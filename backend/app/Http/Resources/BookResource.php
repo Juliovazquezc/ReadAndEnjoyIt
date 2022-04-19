@@ -20,7 +20,10 @@ class BookResource extends JsonResource
            'name' => $this->name,
            'author' => $this->author,
            'status' => $this->status,
-           'user_with_the_book' => $this->when($this->status == BookStatus::BORROWED, $this->userWithTheBook()), 
+           'user_with_the_book' => $this->when($this->status == BookStatus::BORROWED, [
+                'id' => $this->idUserWithThebook(),
+                'name' => $this->userWithTheBook()
+           ]), 
            'publication_date' => $this->publication_date,
            'category' => $this->category->name,
         ];
