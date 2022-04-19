@@ -5,6 +5,12 @@ const getAllBooks = async (limit = 10, page) => {
     return response
 }
 
+const deleteBook = async (id) => {
+    const {data: response} = await axios.delete(`/books/${id}`);
+    return response
+}
+
 export {
-    getAllBooks
+    getAllBooks,
+    deleteBook
 }

@@ -42,6 +42,9 @@
   "components": {
     "logout_button": {
       "action": "Logout"
+    },
+    "dialog_user": {
+      "user_with_the_book": "User with the book"
     }
   },
   "data_tables":{
@@ -57,7 +60,8 @@
         "author": "Author",
         "status": "Status",
         "publication_date": "Publication date",
-        "category": "Category"
+        "category": "Category",
+        "actions": "Actions"
       }
     }
   }
