@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Models\Book;
 use Illuminate\Http\Request;
@@ -31,6 +32,8 @@ Route::group($versionApiAttributes, function ()  {
         Route::get('users/me/', [UserController::class, 'me']);
         
         
+        Route::get('categories/', [CategoryController::class, 'index']);
+
         Route::get('books/', [BookController::class, 'index']);
         Route::get('books/{book}', [BookController::class, 'show']);
         Route::post('books/', [BookController::class, 'store']);
