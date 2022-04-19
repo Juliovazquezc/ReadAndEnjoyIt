@@ -45,6 +45,9 @@
     },
     "dialog_user": {
       "user_with_the_book": "User with the book"
+    },
+    "snack_bar" : {
+      "close" : "close"
     }
   },
   "data_tables":{
@@ -62,7 +65,16 @@
         "publication_date": "Publication date",
         "category": "Category",
         "actions": "Actions"
+      },
+      "errors": {
+        "delete" : {
+          "403" : "You can not delete this book because it's actually borrowed"
+        }
       }
     }
+  },
+  "errors": {
+    "general": "We can not complete your action, try again",
+    "500": "We are having technical difficulties, please try again."
   }
 }
