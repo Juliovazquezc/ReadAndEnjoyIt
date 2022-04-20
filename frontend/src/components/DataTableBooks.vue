@@ -28,6 +28,7 @@
       :items-per-page="10"
       :server-items-length="totalBooks"
       :options.sync="options"
+      :sort-desc.sync="sortDesc"
       :loading="loadingTable"
       class="elevation-1 mt-5"
       :footer-props="{
@@ -148,6 +149,7 @@ export default {
         show: false,
         duration: 1500,
       },
+      sortDesc: true,
       headers: [
         { text: this.$t(`data_tables.books.headers.name`), value: "name" },
         { text: this.$t(`data_tables.books.headers.author`), value: "author" },
@@ -171,15 +173,20 @@ export default {
   },
   methods: {
     async fillBooks() {
+      console.log(this.options);
       this.loadingTable = true;
       try {
         this.loadingTable = true;
-        const { itemsPerPage, page } = this.options;
+        const { itemsPerPage, page, sortDesc, sortBy } = this.options;
         let limit = itemsPerPage < 0 ? this.totalBooks : itemsPerPage;
-        const { data, meta } = await BookService.getAllBooks(limit, page);
+        const sort = sortBy.length > 0 ? sortBy[0] : 'updated_at';
+        const desc = sortDesc.length > 0 ? sortDesc[0] : true;
+        const { data, meta } = await BookService.getAllBooks(limit, page, sort, desc);
+
         this.books = data;
         this.totalBooks = meta.total;
       } catch (error) {
+        console.log(error);
         const httpCode = error.response?.status || 500;
         this.books = [];
         this.showSnackError(httpCode);
@@ -220,10 +227,8 @@ export default {
       this.edit = false;
     },
     editChangeStatus(item) {
-      console.log(item);
       this.bookStatus = item;
       this.showChangeStatus = true;
-      console.log(this.showChangeStatus);
     },
     handleNewBook(book) {
       this.books.pop();

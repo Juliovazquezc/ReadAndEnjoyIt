@@ -1,7 +1,8 @@
 import axios from 'axios';
 
-const getAllBooks = async (limit = 10, page) => {
-    const { data: response } = await axios.get(`/books?limit=${limit}&page=${page}`);
+const getAllBooks = async (limit = 10, page, sortBy='updated_at', desc = true) => {
+    sortBy = sortBy.includes('category') ? 'category_id' : sortBy;
+    const { data: response } = await axios.get(`/books?limit=${limit}&page=${page}&sortBy=${sortBy}&desc=${desc}`);
     return response
 }
 
