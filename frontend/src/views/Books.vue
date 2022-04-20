@@ -7,16 +7,16 @@
       <v-col cols="12" class="d-flex flex-column justify-center align-center">
         <div style="width: 80%">
           <v-card>
-            <div class="d-flex justify-center align-center pa-6">
+            <div class="d-flex flex-wrap justify-center align-center pa-6">
               <v-avatar color="primary" size="56">
                 <v-icon dark> mdi-account-circle </v-icon>
               </v-avatar>
               <div
-                class="d-flex justify-center align-center"
+                class="d-flex flex-wrap justify-center align-center"
                 v-if="!error.value"
               >
-                <div>
-                  <v-card-title>{{ user.name }}</v-card-title>
+                <div class="text-center">
+                  <v-card-title class="justify-center">{{ user.name }}</v-card-title>
                   <v-card-subtitle> {{ user.email }}</v-card-subtitle>
                 </div>
                 <div class="ml-2">

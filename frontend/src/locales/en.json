@@ -81,10 +81,24 @@
       "action": "Logout"
     },
     "dialog_user": {
-      "user_with_the_book": "User with the book"
+      "user_with_the_book": "User who has the book"
     },
     "snack_bar" : {
       "close" : "close"
+    },
+    "return_or_take_book": {
+      "titles": {
+        "return": "Are you sure you want to return this book?",
+        "borrow": "Are you sure you want borrow this book?",
+        "forbidden": "You can not return the book because you are not the user who has the book"
+      },
+      "actions": {
+        "confirm": "Confirm",
+        "exit": "Exit"
+      },
+      "errors": {
+        "403": "Your request has been denied because the book has already been returned or was taken by another user."
+      }
     }
   },
   "data_tables":{
@@ -94,7 +108,8 @@
         "edit": "Edit the book",
         "delete" : "Delete the book",
         "show_user_with_the_book" : "Show user with the book",
-        "take_the_book": "Take the book"
+        "take_the_book": "Take the book",
+        "return_the_book": "Return the book"
       },
       "headers": {
         "name": "Name",

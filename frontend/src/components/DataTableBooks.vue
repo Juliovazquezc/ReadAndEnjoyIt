@@ -8,6 +8,10 @@
       @newBookAdded="(newBook) => handleNewBook(newBook)"
       @editedBook="(editedBook) => handleEditedBook(editedBook)"
       />
+    <return-or-take-book :book="bookStatus" 
+      :showStatusChange="showChangeStatus"
+      @resetShow="(show) => showChangeStatus = show"
+      @updateBook="(book) => handleEditedBook(book)"/>
     <v-btn block color="primary" class="mt-5" @click="createBook"> {{ $t('data_tables.books.actions.create') }} </v-btn>
     <dialog-user
       :showDialog="showDialog"
@@ -64,6 +68,7 @@
                 color="error"
                 v-bind="attrs"
                 v-on="on"
+                class="ml-2"
                 small
                 @click="handleDelete(item)"
               >
@@ -73,12 +78,13 @@
             <span>{{ $t(`data_tables.books.actions.delete`) }}</span>
           </v-tooltip>
 
-          <v-tooltip top v-else>
+          <v-tooltip class='ml-2' top v-else>
             <template v-slot:activator="{ on, attrs }">
               <v-icon
                 color="primary"
                 v-bind="attrs"
                 v-on="on"
+                class="ml-2"
                 small
                 @click="showUser(item)"
               >
@@ -87,6 +93,24 @@
             </template>
             <span>{{
               $t(`data_tables.books.actions.show_user_with_the_book`)
+            }}</span>
+          </v-tooltip>
+
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                color="primary"
+                v-bind="attrs"
+                v-on="on"
+                class="ml-2"
+                small
+                @click="editChangeStatus(item)"
+              >
+                {{ getIconChangeStatusBook(item.status) }}
+              </v-icon>
+            </template>
+            <span>{{
+               getTooltipStatusBook(item.status) 
             }}</span>
           </v-tooltip>
         </div>
@@ -100,18 +124,22 @@ import * as BookService from "../services/book-service";
 import DialogUser from "@/components/DialogUser.vue";
 import SnackBar from "@/components/SnackBar.vue";
 import BookForm from "@/components/BookForm.vue";
+import ReturnOrTakeBook from "@/components/ReturnOrTakeBook.vue";
 import { getSkeletonBook } from "../utils/book";
+
 
 export default {
   name: "DataTableBooks",
   data() {
     return {
       book: getSkeletonBook(),
+      bookStatus: getSkeletonBook(),
       loading: false,
       totalBooks: 0,
       showDialog: false,
-      edit: false,
       showForm: false,
+      showChangeStatus: false,
+      edit: false,
       options: {},
       userWithTheBook: "",
       loadingTable: false,
@@ -191,6 +219,12 @@ export default {
       this.showForm = true;
       this.edit = false;
     },
+    editChangeStatus(item) {
+      console.log(item);
+      this.bookStatus = item;
+      this.showChangeStatus = true;
+      console.log(this.showChangeStatus);
+    },
     handleNewBook(book) {
       this.books.pop();
       this.books = [book].concat(this.books);
@@ -216,6 +250,12 @@ export default {
     getColorStatus(status) {
       return status == "Borrowed" ? "error" : "success";
     },
+    getIconChangeStatusBook (status) {
+      return status == 'Borrowed' ? 'mdi-keyboard-return' : 'mdi-hand-wave';
+    },
+    getTooltipStatusBook (status) {
+      return status == 'Borrowed' ? this.$t('data_tables.books.actions.return_the_book') : this.$t('data_tables.books.actions.take_the_book');
+    }
   },
   watch: {
     options: {
@@ -227,7 +267,8 @@ export default {
   components: {
     DialogUser,
     SnackBar,
-    BookForm
+    BookForm,
+    ReturnOrTakeBook
   },
 };
 </script>

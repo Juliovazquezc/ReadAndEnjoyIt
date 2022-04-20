@@ -15,7 +15,7 @@ export default {
   props: {
     duration: {
       type: Number,
-      default: 1500,
+      default: 3000,
     },
     message: {
       type: String,
@@ -36,6 +36,9 @@ export default {
     showSnack() {
       this.show = this.showSnack;
     },
+    show() {
+      this.$emit('hide', this.show);
+    } 
   },
 };
 </script>

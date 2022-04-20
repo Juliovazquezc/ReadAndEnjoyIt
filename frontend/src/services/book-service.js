@@ -20,9 +20,21 @@ const editBook = async (id, data) => {
     return response;
 }
 
+const borrowBook = async (id) => {
+    const {data: response } = await axios.put(`/books/${id}/borrow`);
+    return response;
+}
+
+const returnBook = async (id) => {
+    const {data: response} = await axios.put(`/books/${id}/return`);
+    return response;
+}
+
 export {
     getAllBooks,
     deleteBook,
     createBook,
-    editBook
+    editBook,
+    borrowBook,
+    returnBook,
 }
