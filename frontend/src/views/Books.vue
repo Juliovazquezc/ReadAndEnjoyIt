@@ -24,11 +24,10 @@
                 </div>
               </div>
               <div v-else>
-                <v-card-title class='error--text'>Hello</v-card-title>
+                <v-card-title class='error--text'>{{ error.message }}</v-card-title>
               </div>
             </div>
           </v-card>
-          <v-btn block color="primary" class="mt-5"> Create a book </v-btn>
           <data-table-books></data-table-books>
         </div>
       </v-col>
@@ -68,7 +67,10 @@ export default {
     this.loading = true;
     try {
       await this.retrieveInfoUser();
+      this.error.value = false;
     } catch (error) {
+      this.error.value = true;
+      this.error.message = this.$t('errors.user_info');
     } finally {
       this.loading = false;
     }

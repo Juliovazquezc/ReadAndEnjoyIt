@@ -1,5 +1,14 @@
 <template>
   <div>
+    <book-form :book="book"
+      :showForm="showForm" 
+      :edit="edit"
+      @errorCategory="(httpCode) => showSnackError(httpCode)"
+      @resetShow="(show) => showForm = show"
+      @newBookAdded="(newBook) => handleNewBook(newBook)"
+      @editedBook="(editedBook) => handleEditedBook(editedBook)"
+      />
+    <v-btn block color="primary" class="mt-5" @click="createBook"> {{ $t('data_tables.books.actions.create') }} </v-btn>
     <dialog-user
       :showDialog="showDialog"
       :nameUser="userWithTheBook"
@@ -32,6 +41,23 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div>
+           <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                color="primary"
+                v-bind="attrs"
+                v-on="on"
+                small
+                @click="editBook(item)"
+              >
+                mdi-pencil
+              </v-icon>
+            </template>
+            <span>{{
+              $t(`data_tables.books.actions.edit`)
+            }}</span>
+          </v-tooltip>
+
           <v-tooltip top v-if="item.status == 'Available'">
             <template v-slot:activator="{ on, attrs }">
               <v-icon
@@ -73,13 +99,19 @@
 import * as BookService from "../services/book-service";
 import DialogUser from "@/components/DialogUser.vue";
 import SnackBar from "@/components/SnackBar.vue";
+import BookForm from "@/components/BookForm.vue";
+import { getSkeletonBook } from "../utils/book";
+
 export default {
   name: "DataTableBooks",
   data() {
     return {
+      book: getSkeletonBook(),
       loading: false,
       totalBooks: 0,
       showDialog: false,
+      edit: false,
+      showForm: false,
       options: {},
       userWithTheBook: "",
       loadingTable: false,
@@ -98,7 +130,7 @@ export default {
         },
         {
           text: this.$t(`data_tables.books.headers.category`),
-          value: "category",
+          value: "category.name",
         },
         {
           text: this.$t(`data_tables.books.headers.actions`),
@@ -134,6 +166,9 @@ export default {
         await BookService.deleteBook(item.id);
         const indexItem = this.books.indexOf(item);
         this.books.splice(indexItem, 1);
+        this.snackBar.show = true;
+        this.snackBar.duration = 1000;
+        this.snackBar.message = this.$t('data_tables.books.messages.successfully_deteled');
         if (this.books.length == 0) {
           this.options.page = 1;
         } else {
@@ -146,7 +181,24 @@ export default {
         this.loading = false;
       }
     },
-
+    editBook(item) {
+      this.book = {...item};
+      this.showForm = true;
+      this.edit = true;
+    },
+    createBook() {
+      this.book = getSkeletonBook();
+      this.showForm = true;
+      this.edit = false;
+    },
+    handleNewBook(book) {
+      this.books.pop();
+      this.books = [book].concat(this.books);
+    },
+    handleEditedBook(book) {
+      const index = this.books.findIndex((element) => book.id == element.id);
+      Object.assign(this.books[index], book);
+    },
     showUser(item) {
       this.showDialog = !this.showDialog;
       this.userWithTheBook = item.user_with_the_book.name;
@@ -174,7 +226,8 @@ export default {
   },
   components: {
     DialogUser,
-    SnackBar
+    SnackBar,
+    BookForm
   },
 };
 </script>

@@ -10,7 +10,19 @@ const deleteBook = async (id) => {
     return response
 }
 
+const createBook = async (data) => {
+    const {data: response} = await axios.post('/books', data);
+    return response;
+}
+
+const editBook = async (id, data) => {
+    const {data: response } = await axios.put(`/books/${id}`, data);
+    return response;
+}
+
 export {
     getAllBooks,
-    deleteBook
+    deleteBook,
+    createBook,
+    editBook
 }

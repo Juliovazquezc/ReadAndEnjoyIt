@@ -1,5 +1,4 @@
 {
-  "message": "hello i18n !!",
   "views": {
     "login": {
       "main_message": "Create and choose from hundreds of books, read and start enjoying new worlds.",
@@ -10,7 +9,6 @@
         "email": "Email",
         "password": "Password"
       },
-
       "need_an_account": "You need an account?",
       "register": "Register"
     }
@@ -37,6 +35,45 @@
         "403": "The credentials are incorrect, please try again",
         "500": "We are having technical difficulties, please try again."
       }
+    },
+    "book": {
+      "title":{
+        "create": "Create a book",
+        "edit": "Edit book"
+      },
+      "buttons": {
+        "create": "Create",
+        "edit": "Save"
+      },
+      "inputs" : {
+        "name": {
+          "name" : "Name of the book",
+          "validation" : {
+            "required": "Name of the book is required",
+            "length": "Name of the book must be less than 100 characters",
+            "unique": "This name has been registered, try another name"
+          }
+        },
+        "author": {
+          "name" : "Author",
+          "validation" : {
+            "required": "Author of the book is required",
+            "length": "Author must be less than 35 characters"
+          }
+        },
+        "publication_date": {
+          "name" : "Publication date",
+          "validation": {
+            "required": "Publication date is required"
+          }
+        },
+        "category": {
+          "name" : "Category",
+          "validation": {
+            "required": "Category is required"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -53,6 +90,7 @@
   "data_tables":{
     "books": {
       "actions": {
+        "create": "Create a book",
         "edit": "Edit the book",
         "delete" : "Delete the book",
         "show_user_with_the_book" : "Show user with the book",
@@ -70,11 +108,15 @@
         "delete" : {
           "403" : "You can not delete this book because it's actually borrowed"
         }
+      },
+      "messages": {
+        "successfully_deteled": "The book has been succesfully deleted"
       }
     }
   },
   "errors": {
     "general": "We can not complete your action, try again",
+    "user_info": "Error getting your information",
     "500": "We are having technical difficulties, please try again."
   }
 }
