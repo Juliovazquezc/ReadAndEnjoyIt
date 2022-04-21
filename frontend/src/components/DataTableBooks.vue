@@ -1,24 +1,33 @@
 <template>
   <div>
-    <book-form :book="book"
-      :showForm="showForm" 
+    <book-form
+      :book="book"
+      :showForm="showForm"
       :edit="edit"
       @errorCategory="(httpCode) => showSnackError(httpCode)"
-      @resetShow="(show) => showForm = show"
+      @resetShow="(show) => (showForm = show)"
       @newBookAdded="(newBook) => handleNewBook(newBook)"
       @editedBook="(editedBook) => handleEditedBook(editedBook)"
-      />
-    <return-or-take-book :book="bookStatus" 
+    />
+    <return-or-take-book
+      :book="bookStatus"
       :showStatusChange="showChangeStatus"
-      @resetShow="(show) => showChangeStatus = show"
-      @updateBook="(book) => handleEditedBook(book)"/>
-    <v-btn block color="primary" class="mt-5" @click="createBook"> {{ $t('data_tables.books.actions.create') }} </v-btn>
+      @resetShow="(show) => (showChangeStatus = show)"
+      @updateBook="(book) => handleEditedBook(book)"
+    />
+    <v-btn block color="primary" class="mt-5" @click="createBook">
+      {{ $t("data_tables.books.actions.create") }}
+    </v-btn>
     <dialog-user
       :showDialog="showDialog"
       :nameUser="userWithTheBook"
       @resetShow="(value) => (showDialog = value)"
     />
-    <snack-bar :message="snackBar.message" :showSnack="snackBar.show" :duration="snackBar.duration" />
+    <snack-bar
+      :message="snackBar.message"
+      :showSnack="snackBar.show"
+      :duration="snackBar.duration"
+    />
     <v-overlay absolute v-model="loading">
       <v-progress-circular :size="100" indeterminate />
     </v-overlay>
@@ -39,6 +48,15 @@
         nextIcon: 'mdi-plus',
       }"
     >
+      <template v-slot:top>
+        <v-text-field
+          v-model="search"
+          outlined
+          append-icon="mdi-magnify"
+          :label=" $t(`data_tables.books.actions.search`) "
+          class="px-5 pt-3"
+        ></v-text-field>
+      </template>
       <template v-slot:item.status="{ item }">
         <v-chip :color="getColorStatus(item.status)">
           {{ item.status }}
@@ -46,7 +64,7 @@
       </template>
       <template v-slot:item.actions="{ item }">
         <div>
-           <v-tooltip top>
+          <v-tooltip top>
             <template v-slot:activator="{ on, attrs }">
               <v-icon
                 color="primary"
@@ -58,9 +76,7 @@
                 mdi-pencil
               </v-icon>
             </template>
-            <span>{{
-              $t(`data_tables.books.actions.edit`)
-            }}</span>
+            <span>{{ $t(`data_tables.books.actions.edit`) }}</span>
           </v-tooltip>
 
           <v-tooltip top v-if="item.status == 'Available'">
@@ -79,7 +95,7 @@
             <span>{{ $t(`data_tables.books.actions.delete`) }}</span>
           </v-tooltip>
 
-          <v-tooltip class='ml-2' top v-else>
+          <v-tooltip class="ml-2" top v-else>
             <template v-slot:activator="{ on, attrs }">
               <v-icon
                 color="primary"
@@ -110,9 +126,7 @@
                 {{ getIconChangeStatusBook(item.status) }}
               </v-icon>
             </template>
-            <span>{{
-               getTooltipStatusBook(item.status) 
-            }}</span>
+            <span>{{ getTooltipStatusBook(item.status) }}</span>
           </v-tooltip>
         </div>
       </template>
@@ -144,8 +158,9 @@ export default {
       options: {},
       userWithTheBook: "",
       loadingTable: false,
+      search: "",
       snackBar: {
-        message: '',
+        message: "",
         show: false,
         duration: 1500,
       },
@@ -173,20 +188,24 @@ export default {
   },
   methods: {
     async fillBooks() {
-      console.log(this.options);
       this.loadingTable = true;
       try {
         this.loadingTable = true;
         const { itemsPerPage, page, sortDesc, sortBy } = this.options;
         let limit = itemsPerPage < 0 ? this.totalBooks : itemsPerPage;
-        const sort = sortBy.length > 0 ? sortBy[0] : 'updated_at';
+        const sort = sortBy.length > 0 ? sortBy[0] : "updated_at";
         const desc = sortDesc.length > 0 ? sortDesc[0] : true;
-        const { data, meta } = await BookService.getAllBooks(limit, page, sort, desc);
+        const { data, meta } = await BookService.getAllBooks(
+          limit,
+          page,
+          sort,
+          desc,
+          this.search
+        );
 
         this.books = data;
         this.totalBooks = meta.total;
       } catch (error) {
-        console.log(error);
         const httpCode = error.response?.status || 500;
         this.books = [];
         this.showSnackError(httpCode);
@@ -203,13 +222,15 @@ export default {
         this.books.splice(indexItem, 1);
         this.snackBar.show = true;
         this.snackBar.duration = 1000;
-        this.snackBar.message = this.$t('data_tables.books.messages.successfully_deteled');
+        this.snackBar.message = this.$t(
+          "data_tables.books.messages.successfully_deteled"
+        );
         if (this.books.length == 0) {
           this.options.page = 1;
         } else {
           await this.fillBooks();
         }
-      }catch (error) {
+      } catch (error) {
         const httpCode = error.response?.status || 500;
         this.showSnackError(httpCode);
       } finally {
@@ -217,7 +238,7 @@ export default {
       }
     },
     editBook(item) {
-      this.book = {...item};
+      this.book = { ...item };
       this.showForm = true;
       this.edit = true;
     },
@@ -244,23 +265,28 @@ export default {
     },
     showSnackError(httpCode = 500) {
       this.snackBar.show = true;
-      let message = (httpCode == 500) ? this.$t('errors.500') : this.$t('data_tables.books.errors.delete.403');
+      let message =
+        httpCode == 500
+          ? this.$t("errors.500")
+          : this.$t("data_tables.books.errors.delete.403");
       /**Not found translation */
       if (message.includes(httpCode)) {
-        message = this.$t('errors.general');
+        message = this.$t("errors.general");
       }
-      this.snackBar.message = message 
+      this.snackBar.message = message;
       this.snackBar.duration = 5000;
     },
     getColorStatus(status) {
       return status == "Borrowed" ? "error" : "success";
     },
-    getIconChangeStatusBook (status) {
-      return status == 'Borrowed' ? 'mdi-keyboard-return' : 'mdi-hand-wave';
+    getIconChangeStatusBook(status) {
+      return status == "Borrowed" ? "mdi-keyboard-return" : "mdi-hand-wave";
     },
-    getTooltipStatusBook (status) {
-      return status == 'Borrowed' ? this.$t('data_tables.books.actions.return_the_book') : this.$t('data_tables.books.actions.take_the_book');
-    }
+    getTooltipStatusBook(status) {
+      return status == "Borrowed"
+        ? this.$t("data_tables.books.actions.return_the_book")
+        : this.$t("data_tables.books.actions.take_the_book");
+    },
   },
   watch: {
     options: {
@@ -268,12 +294,15 @@ export default {
         await this.fillBooks();
       },
     },
+    async search() {
+      await this.fillBooks();
+    },
   },
   components: {
     DialogUser,
     SnackBar,
     BookForm,
-    ReturnOrTakeBook
+    ReturnOrTakeBook,
   },
 };
 </script>

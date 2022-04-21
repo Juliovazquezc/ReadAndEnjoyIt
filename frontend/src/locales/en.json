@@ -109,7 +109,8 @@
         "delete" : "Delete the book",
         "show_user_with_the_book" : "Show user with the book",
         "take_the_book": "Take the book",
-        "return_the_book": "Return the book"
+        "return_the_book": "Return the book",
+        "search": "Search"
       },
       "headers": {
         "name": "Name",
