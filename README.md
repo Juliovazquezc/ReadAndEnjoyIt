@@ -1,3 +1,4 @@
+
 # Read And Enjoy It
 
 This project is for a FullStack Challenge to Maniak a Butchershop Company. 
@@ -128,3 +129,17 @@ And run the project
 If you want to use the system without setup all the project you can click the next link: [Demo](https://readandenjoyit.herokuapp.com/).
 
 > **The user to enter is the same to test the API**
+
+## Screenshots
+
+
+![Books](https://github.com/Juliovazquezc/ReadAndEnjoyIt/blob/main/screenshots/login.PNG?raw=true)
+
+![Books](https://github.com/Juliovazquezc/ReadAndEnjoyIt/blob/main/screenshots/Books.PNG?raw=true)
+
+![Books](https://github.com/Juliovazquezc/ReadAndEnjoyIt/blob/main/screenshots/Create_book.PNG?raw=true)
+
+![Books](https://github.com/Juliovazquezc/ReadAndEnjoyIt/blob/main/screenshots/Borrow.PNG?raw=true)
+
+![Books](https://github.com/Juliovazquezc/ReadAndEnjoyIt/blob/main/screenshots/User_with_book.PNG?raw=true)
+
