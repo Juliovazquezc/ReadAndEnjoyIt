@@ -27,6 +27,7 @@
       :message="snackBar.message"
       :showSnack="snackBar.show"
       :duration="snackBar.duration"
+      @hide="(value) => (snackBar.show = value)"
     />
     <v-overlay absolute v-model="loading">
       <v-progress-circular :size="100" indeterminate />
@@ -252,6 +253,11 @@ export default {
       this.showChangeStatus = true;
     },
     handleNewBook(book) {
+      const { itemsPerPage } = this.options;
+      if( itemsPerPage >= this.books.length || itemsPerPage == -1) {
+        this.books = [book].concat(this.books);
+        return
+      }
       this.books.pop();
       this.books = [book].concat(this.books);
     },
