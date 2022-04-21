@@ -5,8 +5,10 @@ import store from './store'
 import vuetify from './plugins/vuetify'
 import i18n from './i18n'
 require('./axios');
+import { setTokenAxios } from "./utils/token";
 
 Vue.config.productionTip = false
+setTokenAxios();
 
 new Vue({
   router,

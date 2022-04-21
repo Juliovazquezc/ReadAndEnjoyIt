@@ -6,7 +6,7 @@
     <div class="error--text my-1 text-center" v-if="error.value">
       {{ error.message }}
     </div>
-    <v-form ref="loginForm">
+    <v-form @submit.prevent="loginUseCase" ref="loginForm">
       <v-text-field
         outlined
         type="email"
@@ -24,11 +24,10 @@
         :rules="passwordRules"
         v-model="credentials.password"
       ></v-text-field>
+      <v-btn block color="primary text-subtitle-1 btn" type="submit">
+        {{ $t(`${this.baseTranslation}.action`) }}
+      </v-btn>
     </v-form>
-
-    <v-btn block color="primary text-subtitle-1 btn" @click="loginUseCase">
-      {{ $t(`${this.baseTranslation}.action`) }}
-    </v-btn>
   </div>
 </template>
 
@@ -71,11 +70,11 @@ export default {
     },
 
     async loginUseCase() {
-      this.loading = true;
-      this.error.value = false;
       if (!this.isValidForm()) {
         return;
       }
+      this.loading = true;
+      this.error.value = false;
 
       try {
         await this.login(this.credentials);
@@ -94,7 +93,7 @@ export default {
           ? this.$t(`${this.baseTranslation}.errors.403`)
           : this.$t(`${this.baseTranslation}.errors.500`);
     },
-    ...mapActions(['login']),
+    ...mapActions(["login"]),
   },
 };
 </script>

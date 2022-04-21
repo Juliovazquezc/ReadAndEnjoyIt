@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import router from '../router';
 import * as authService from '../services/auth-service';
 import * as userService from '../services/user-service';
+import { setTokenAxios } from "../utils/token";
 
 Vue.use(Vuex)
 
@@ -35,6 +36,7 @@ export default new Vuex.Store({
       const { data } = await authService.login(credentials);
       commit('SET_TOKEN', data);
       localStorage.setItem('token', JSON.stringify(data));
+      setTokenAxios();
       router.push('/books');
     },
     async retrieveInfoUser({commit}) {
