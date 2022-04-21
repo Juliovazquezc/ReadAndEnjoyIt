@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Constants\BookStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use EloquentFilter\Filterable;
 
 class Book extends Model
 {
-    use HasFactory;
+    use HasFactory, Filterable;
 
     /**
      * The attributes that are mass assignable.
@@ -30,6 +32,10 @@ class Book extends Model
     protected $hidden = [
         'created_at',
         'updated_at',
+    ];
+
+    protected $attributes = [
+        'status' => BookStatus::AVAILABLE
     ];
 
     /**

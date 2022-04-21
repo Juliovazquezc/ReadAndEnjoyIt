@@ -15,6 +15,7 @@ use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Traits\HttpResponseModelDeleted;
 use App\UseCases\Book\AddNewBookUseCase;
+use App\UseCases\Book\PaginateBooksUseCase;
 use App\UseCases\Book\UpdateBookStatusUseCase;
 use App\Utils\UpdateModelUtil;
 use Illuminate\Http\JsonResponse;
@@ -27,9 +28,9 @@ class BookController extends Controller
     /**
      * Return a collection of books
      */
-    public function index(Request $request) {
-        $limit = ( $request->limit ) ? $request->limit : Pagination::ITEMS_PER_PAGE;
-        return BookResource::collection(Book::paginate($limit));
+    public function index(Request $request, PaginateBooksUseCase $useCase) {
+        $books = $useCase($request->all());
+        return BookResource::collection($books);
     }
 
     /**

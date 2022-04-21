@@ -25,7 +25,10 @@ class BookResource extends JsonResource
                 'name' => $this->userWithTheBook()
            ]), 
            'publication_date' => $this->publication_date,
-           'category' => $this->category->name,
+           'category' => [
+               'id' => $this->category->id,
+               'name' => $this->category->name
+           ]
         ];
     }
 }
