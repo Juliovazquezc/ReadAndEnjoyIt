@@ -10,7 +10,9 @@
         "password": "Password"
       },
       "need_an_account": "You need an account?",
-      "register": "Register"
+      "you_have_an_account": "You have an account?",
+      "register": "Register",
+      "login": "Login"
     }
   },
   "forms": {
@@ -34,6 +36,41 @@
       "errors": {
         "403": "The credentials are incorrect, please try again",
         "500": "We are having technical difficulties, please try again."
+      }
+    },
+    "register": {
+      "action" : "Register",
+      "inputs" : {
+        "name": {
+          "name": "Your name",
+          "validation":{
+            "required" : "Name is required"
+          }
+        },
+        "email": {
+          "name": "Email",
+          "validation":{
+            "required" : "Email is required",
+            "format": "The input is not a valid email",
+            "unique": "This email has been registered"
+          }
+        },
+        "password": {
+          "name": "Password",
+          "validation":{
+            "required" : "Password is required",
+            "length":"Password must be at least 8 characters",
+            "match": "The passwords fields must be match"
+          }
+        },
+        "repeat_password": {
+          "name": "Repeat your password",
+          "validation":{
+            "required" : "Repeat password is required",
+            "length":"Password must be at least 8 characters",
+            "match": "The passwords fields must be match"
+          }
+        }
       }
     },
     "book": {

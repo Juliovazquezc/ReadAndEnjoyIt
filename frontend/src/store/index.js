@@ -7,6 +7,13 @@ import { setTokenAxios } from "../utils/token";
 
 Vue.use(Vuex)
 
+const doCommonActions = (commit, data) => {
+  commit('SET_TOKEN', data);
+  localStorage.setItem('token', JSON.stringify(data));
+  setTokenAxios();
+  router.push('/books');
+}
+
 export default new Vuex.Store({
   state: {
     user: {
@@ -34,10 +41,11 @@ export default new Vuex.Store({
   actions: {
     async login({ commit }, credentials) {
       const { data } = await authService.login(credentials);
-      commit('SET_TOKEN', data);
-      localStorage.setItem('token', JSON.stringify(data));
-      setTokenAxios();
-      router.push('/books');
+      doCommonActions(commit, data);
+    },
+    async register({commit}, register) {
+      const { data } = await authService.register(register);
+      doCommonActions(commit, data);
     },
     async retrieveInfoUser({commit}) {
       const { data } = await userService.getUser();

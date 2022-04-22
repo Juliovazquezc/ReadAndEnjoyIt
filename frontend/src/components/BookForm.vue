@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     v-model="dialog"
-    max-width="60%"
+    :max-width="$vuetify.breakpoint.mdAndUp ? '60%' : '85%'"
     transition="dialog-bottom-transition"
   >
     <v-overlay absolute v-model="loading">

@@ -5,6 +5,12 @@ const login = async(data) => {
     return response;
 }
 
+const register = async (data) => {
+    const {data: response} = await axios.post('/auth/register', data);
+    return response;
+}
+
 export {
-    login
+    login,
+    register
 }
